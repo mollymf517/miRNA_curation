@@ -3,6 +3,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+
+//To do:
+// Convert precursor name to transcript/gene id
+// search in hg38 for other ID, add to file
+// loop through file of precursor IDs
+// find precursors in the blast database using the transcript and get their full sequence
+// run bowtie2 with precursor sequence and miRNAs
+//
+//
 public class mapping {
     public static ArrayList<String> getSequences(String fastq){
         //read in miRNAs from fastq file
@@ -13,11 +22,10 @@ public class mapping {
             int lineCount = 1;
             while ((line = read_seqs.readLine()) != null){
                 //String[] data = line.split("\t");
-
                 if (lineCount == 2){
                     //System.out.println("Sequence found: ");
                     mi_RNAs.add(line);
-                    System.out.println(line);
+                    //System.out.println(line);
                 } 
                 if (lineCount == 4){
                     lineCount = 0;
@@ -35,14 +43,28 @@ public class mapping {
              String line = null;
              while ((line = read_precursors.readLine()) != null){
                  String[] data = line.split("\t");
-                 precursors.add(data[2]);
-                 System.out.println(data[2]);
+                 String name = data[1];
+                 precursors.add(formatName(name));
+                 //precursors.add(data[2]);
+                // System.out.println(data[1]);
              }
          } catch (Exception e) {
              System.out.println("Error.");
          }
+        //remove the first item, which is the column name
+        precursors.remove(0);
         
         return precursors;
+    }
+
+    public static String formatName(String name){
+        String formatted = "";
+        formatted = name.replaceAll("-", "");
+        formatted = formatted.replaceAll("hsa", "");
+        formatted = formatted.toUpperCase();
+        //System.out.println("formatted: ");
+        //System.out.println(formatted);
+        return formatted;
     }
     public static String[] getFlankingSeqs(String precursor, int seqSize){
         //when do we want to get flanking sequences? One at a time, or do we want
@@ -54,11 +76,58 @@ public class mapping {
         //flankingSeqs[1] = downstream
         return flankingSeqs;
     }
+    // public static String getTranscriptIds(String[] precursors) throws IOException{
+    //     //takes list of precursors and gets all transcript ids adding them to a list
+    //     //boolean windows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+    //    //change it to return string [] after test
+    //     String testid = "failed";
+    //     int numPrecursors = precursors.length;
+    //     String[] ids = new String[numPrecursors];
+    //     for(int i=0; i<numPrecursors;i++){
+    //         String geneName = precursors[i];
+    //         System.out.println("gene name: ");
+    //         System.out.println(geneName);
+    //         String id = null;
+    //         try{
+    //             Runtime r = Runtime.getRuntime();
+    //             String [] cmd = new String[]{"/bin/sh", "/global/home/hpc4982/resources/transcriptid.sh", geneName};
+    //             Process p = r.exec(cmd);
+    //             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+    //             String inputLine;
+    //             while((inputLine = in.readLine()) != null){
+    //                 System.out.println(inputLine);
+    //                 id+=inputLine;
+    //                 System.out.println("id: ");
+    //                 System.out.println(id);
+    //             }
+    //             ids[i] = id;
+    //             testid = id;
+    //             in.close();
+    //         } catch (IOException e){
+    //             System.out.println(e);
+    //         }
+    //        // String [] cmd = new String[]{"/bin/sh", "/global/home/hpc3982/resources/transcriptid.sh", geneName};
+
+    //        // Process p = new ProcessBuilder("./transcriptid.sh", geneName).start();
+    //        // Process p = Runtime.getRuntime().exec(cmd);
+    //        // InputStream in = p.getInputStream();
+    //       //  int c;
+    //       //  while ((c = in.read()) != -1) {
+    //        //     p((char)c);
+    //       //  }
+    //      //   in.close();
+    //      //   System.out.println(p);
+            
+    //       //  ids[i] = p[0];
+    //     }
+    //     return testid;
+    //}
     public static String map_precursors(ArrayList<String> precursors, ArrayList<String> sequences){
         String precursor = "";
         for (int i = 1; i<precursors.size(); i++){
             precursor = precursors.get(i);
             String [] flanks = getFlankingSeqs(precursor, 1);
+            System.out.println(flanks);
             //code to align all miRNAs with the sequence - Bowtie 2; start off with distance of 0
         }
         return precursor;
