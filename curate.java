@@ -9,39 +9,41 @@ public class curate {
     public static void main(String args[]) throws IOException{
         //System.out.println("Performing miRNA Curation.");
         //mapping.formatName("hsa-mir-551a");
-        ArrayList<String> precursors = new ArrayList<>();
-        ArrayList<String> formattedIds = new ArrayList<>();
+        ArrayList<Precursor> precursors = new ArrayList<>();
+        //ArrayList<String> formattedIds = new ArrayList<>();
         precursors = mapping.getPrecursors("/global/home/hpc4982/resources/miRNA_master.tsv");
-     
-        formattedIds = formatIds(precursors);
-        ArrayList<String> testList = new ArrayList<>();
-        testList.add(formattedIds.get(0));
-        testList.add(formattedIds.get(1));
-        testList.add(formattedIds.get(2));
+        //set transcriptId for each precursor
+        getIDs.getTranscriptIds(precursors);
+        //formatIds(precursors);
+        ArrayList<Precursor> testList = new ArrayList<>();
+        testList.add(precursors.get(0));
+        testList.add(precursors.get(1));
+        testList.add(precursors.get(2));
         //getTranscriptIds(formattedIds);
-        getTranscriptIds(testList);
+        getPrecursorSequences(testList);
         String genome = "precursors.fa";
         String mirs = "miRNAs_1.fq";
         performAlignment(mirs, genome, 0);
+        performFolding("outputfile", "folder");
        // String[] testList = {mapping.formatName(precursors.get(1))};
        // getIDs.getTranscriptIds(testList);
        // mapping.getPrecursors("miRNA_master.tsv");
         //change to miRNAs_1.fastq when adding to CAC
         //mapping.getSequences("test.fastq");
     }
-    private static ArrayList<String> formatIds(ArrayList<String> precursors){
-        ArrayList<String> formattedIds = new ArrayList<>();
-        for(int i=0; i<precursors.size(); i++){
-            String unformatted = precursors.get(i);
-            String formatted = mapping.formatName(unformatted);
-            formattedIds.add(formatted);
-        }
-        return formattedIds;
-    }
+   // private static ArrayList<String> formatIds(ArrayList<Precursor> precursors){
+    //    ArrayList<String> formattedIds = new ArrayList<>();
+     //   for(int i=0; i<precursors.size(); i++){
+     //       Precursor p = (precursors.get(i));
+     //       mapping.formatName(p);
+           // formattedIds.add(formatted);
+     //   }
+     //   return formattedIds;
+  //  }
     //create a fasta file with all of the precursor sequences
-    private static void getTranscriptIds(ArrayList<String> formatted) throws IOException{
+    private static void getPrecursorSequences(ArrayList<Precursor> precursors) throws IOException{
         //create a list of transcript ids for each precursor
-        String[] ids = getIDs.getTranscriptIds(formatted);
+        //String[] ids = getIDs.getTranscriptIds(precursors);
        // for(int i=0; i<ids.length;i++){
            // String line = "Transcript ID number " + ids[i] + ":";
            // System.out.println(line);
@@ -52,9 +54,10 @@ public class curate {
         precursorSequences.createNewFile();
         FileWriter writeSequences = new FileWriter("/global/home/hpc4982/curation_test/precursors.fa");
         String header = ">";
-        for(int j=0; j<ids.length;j++){
-            header = header + ids[j] + "\n";
-            String sequence = getSequences.getSequence(ids[j]);
+        for(int j=0; j<precursors.size();j++){
+            String transcript = (precursors.get(j)).transcriptId;
+            header = header + transcript + "\n";
+            String sequence = getSequences.getSequence(transcript);
             System.out.println(sequence);
             writeSequences.write(header);
             writeSequences.write(sequence);
@@ -66,8 +69,27 @@ public class curate {
     }
     //perform alignment with HISAT
     private static void performAlignment(String toAlign, String genome, int minScore){
-
+       // Runtime r = Runtime.getRuntime();
+            //String cmd = "/bin/sh /global/home/hpc4982/resources/path to script.sh " + script arguments;
+            //have a folder where alignment ps files will go, then go through each one, or, we can get a given precursor name
+            //File alignment = folder with alignment post script files.. from these, we will get the folding
+            //System.out.println("command:");
+            //System.out.println(cmd);
+           // Process p = r.exec(cmd);
     }
-    
+    private static void performFolding(String alignmentOut, String outFolder){
+        //run script that does RNAfold on the alignment file
+        //for each ps file, convert ps to pdf
+        //add try-catch for file not found exception
+       // Runtime plot = Runtime.getRuntime();
+       //String pltCmd= "Rnafold + args"
+       //Process getPlot = plot.exec(pltCmd);
+
+       //Runtime pdf = Runtime.getruntime();
+       //loop through files in 
+       //for each file
+            // String pdfCmd = "ps2pdf " + "alignmentOut" + script arguments;
+            // Process getPdf = pdf.exec(pdfCmd);
+    }
 
 }

@@ -6,18 +6,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class getIDs{
-    public static String[] getTranscriptIds(ArrayList<String> precursors) throws IOException{
+    public static void getTranscriptIds(ArrayList<Precursor> precursors) throws IOException{
         //takes list of precursors and gets all transcript ids adding them to a list
         //boolean windows = System.getProperty("os.name").toLowerCase().startsWith("windows");
        //change it to return string [] after test
        // String testid = "failed";
         int numPrecursors = precursors.size();
-        String[] ids = new String[numPrecursors];
+      //  String[] ids = new String[numPrecursors];
         //Pattern pattern = Pattern.compile("\".*\"");
         Pattern pattern = Pattern.compile("\"([^\"]*)\"");
 
         for(int i=0; i<numPrecursors;i++){
-            String geneName = precursors.get(i);
+            String geneName = (precursors.get(i)).geneId;
            // System.out.println("gene name: ");
            // System.out.println(geneName);
             String id_o = null;
@@ -60,7 +60,8 @@ public class getIDs{
              //       System.out.println("Match:");
                     String id = matcher.group(1);
               //      System.out.println(matcher.group(1));
-                    ids[i] = id;
+                   // ids[i] = id;
+                   precursors.get(i).transcriptId = id;
                 }
                 else{
                     System.out.println("Match not found.");
@@ -83,7 +84,7 @@ public class getIDs{
             
           //  ids[i] = p[0];
         }
-        return ids;
+      //  return ids;
     }
     
 }

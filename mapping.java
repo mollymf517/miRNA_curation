@@ -37,14 +37,18 @@ public class mapping {
         }
         return mi_RNAs;
     }
-    public static ArrayList<String> getPrecursors(String filename) {
-         ArrayList<String> precursors = new ArrayList<>();
+    public static ArrayList<Precursor> getPrecursors(String filename) {
+         //ArrayList<String> precursors = new ArrayList<>();
+         ArrayList<Precursor> precursors = new ArrayList<>();
          try(BufferedReader read_precursors = new BufferedReader(new FileReader(filename))){
              String line = null;
              while ((line = read_precursors.readLine()) != null){
                  String[] data = line.split("\t");
                  String name = data[1];
-                 precursors.add(formatName(name));
+                 Precursor p = new Precursor(name);
+                 formatName(p);
+                 //precursors.add(formatName(name));
+                 precursors.add(p);
                  //precursors.add(data[2]);
                 // System.out.println(data[1]);
              }
@@ -57,14 +61,16 @@ public class mapping {
         return precursors;
     }
 
-    public static String formatName(String name){
+    public static void formatName(Precursor precursor){
+        String name = precursor.name;
         String formatted = "";
         formatted = name.replaceAll("-", "");
         formatted = formatted.replaceAll("hsa", "");
         formatted = formatted.toUpperCase();
+        precursor.geneId = formatted;
         //System.out.println("formatted: ");
         //System.out.println(formatted);
-        return formatted;
+        //return formatted;
     }
     public static String[] getFlankingSeqs(String precursor, int seqSize){
         //when do we want to get flanking sequences? One at a time, or do we want
@@ -76,52 +82,7 @@ public class mapping {
         //flankingSeqs[1] = downstream
         return flankingSeqs;
     }
-    // public static String getTranscriptIds(String[] precursors) throws IOException{
-    //     //takes list of precursors and gets all transcript ids adding them to a list
-    //     //boolean windows = System.getProperty("os.name").toLowerCase().startsWith("windows");
-    //    //change it to return string [] after test
-    //     String testid = "failed";
-    //     int numPrecursors = precursors.length;
-    //     String[] ids = new String[numPrecursors];
-    //     for(int i=0; i<numPrecursors;i++){
-    //         String geneName = precursors[i];
-    //         System.out.println("gene name: ");
-    //         System.out.println(geneName);
-    //         String id = null;
-    //         try{
-    //             Runtime r = Runtime.getRuntime();
-    //             String [] cmd = new String[]{"/bin/sh", "/global/home/hpc4982/resources/transcriptid.sh", geneName};
-    //             Process p = r.exec(cmd);
-    //             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-    //             String inputLine;
-    //             while((inputLine = in.readLine()) != null){
-    //                 System.out.println(inputLine);
-    //                 id+=inputLine;
-    //                 System.out.println("id: ");
-    //                 System.out.println(id);
-    //             }
-    //             ids[i] = id;
-    //             testid = id;
-    //             in.close();
-    //         } catch (IOException e){
-    //             System.out.println(e);
-    //         }
-    //        // String [] cmd = new String[]{"/bin/sh", "/global/home/hpc3982/resources/transcriptid.sh", geneName};
-
-    //        // Process p = new ProcessBuilder("./transcriptid.sh", geneName).start();
-    //        // Process p = Runtime.getRuntime().exec(cmd);
-    //        // InputStream in = p.getInputStream();
-    //       //  int c;
-    //       //  while ((c = in.read()) != -1) {
-    //        //     p((char)c);
-    //       //  }
-    //      //   in.close();
-    //      //   System.out.println(p);
-            
-    //       //  ids[i] = p[0];
-    //     }
-    //     return testid;
-    //}
+    
     public static String map_precursors(ArrayList<String> precursors, ArrayList<String> sequences){
         String precursor = "";
         for (int i = 1; i<precursors.size(); i++){
