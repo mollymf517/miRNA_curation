@@ -1,1 +1,1 @@
-# miRNA-curation
+# miRNA_curation
