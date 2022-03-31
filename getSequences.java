@@ -6,10 +6,11 @@ public class getSequences {
     public static String getSequence(String transcriptId){
         String seq = "";
         //System.out.println("Transcript ID: ");
-        System.out.println(transcriptId);
+        //System.out.println(transcriptId);
        
         try{
             Runtime r = Runtime.getRuntime();
+            //String cmd = "/bin/sh /global/home/hpc4982/resources/preseq.sh " + transcriptId;
             String cmd = "/bin/sh /global/home/hpc4982/resources/preseq.sh " + transcriptId;
             //System.out.println("command:");
             //System.out.println(cmd);
@@ -19,7 +20,8 @@ public class getSequences {
 
             while((inputLine = in.readLine()) != null){
                 if(inputLine.isEmpty()){
-                    System.out.println("empty");
+                   // System.out.println(transcriptId);
+                   // System.out.println("empty");
                 }
                 else
                  //   System.out.println("Inputline: ");

@@ -7,7 +7,7 @@ import org.junit.Test;
 public class TranscriptTests {
 
     public void createPrecursors(){
-       // ArrayList<Precursor> precursors = new ArrayList<>();
+      //  ArrayList<Precursor> precursors = new ArrayList<>();
        // precursors = mapping.getPrecursors("/global/home/hpc4982/resources/miRNA_master.tsv");
         //formatIds(precursors);
         //ArrayList<Precursor> testList = new ArrayList<>();
