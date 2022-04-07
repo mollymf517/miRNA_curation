@@ -23,4 +23,8 @@ public class Precursor {
         return this.sequence;
     }
 
+    public void setGeneId(String id){
+        this.geneId = id;
+    }
+
 }

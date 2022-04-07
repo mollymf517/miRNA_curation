@@ -80,8 +80,25 @@ public class mapping {
         formatted = formatted.replaceAll("-A6G", "");
        // formatted = formatted.replace("-[^-]+$","");
         formatted = formatted.replaceAll("-$","");
-
+       // formatted = formatted.replaceAll("-", "");
         formatted = formatted.toUpperCase();
+        //begin hardcoded
+        // formatted = formatted.replaceAll("MIR30C-1", );
+        // formatted = formatted.replaceAll("MIR365-1", );
+        // formatted = formatted.replaceAll("MIR365-2", );
+        // formatted = formatted.replaceAll("MIR1270-1", );
+        // formatted = formatted.replaceAll("MIR1270-2", );
+        // formatted = formatted.replaceAll("MIR517A1", );
+        // formatted = formatted.replaceAll("MIR517A2", );
+        // formatted = formatted.replaceAll("MIR103-2", );
+        // formatted = formatted.replaceAll("MIR103-1", );
+        // formatted = formatted.replaceAll("MIR30C-2", );
+        // formatted = formatted.replaceAll("MIR219-1", );
+        // formatted = formatted.replaceAll("MIR550-1", );
+        // formatted = formatted.replaceAll("MIR550-2", );
+        // formatted = formatted.replaceAll("MIR219-2", );
+        // formatted = formatted.replaceAll("MIR3690-1", );
+        // formatted = formatted.replaceAll("MIR3690-2", );
         precursor.geneId = formatted;
         //System.out.println("formatted: ");
         //System.out.println(formatted);

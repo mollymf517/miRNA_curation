@@ -1,4 +1,5 @@
 public class Candidate {
+    //A class to represent potential microRNAs, not currently in use
     public String sequence;
     public enum RnaType{
         miRNA, 
