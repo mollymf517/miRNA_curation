@@ -110,7 +110,7 @@ public class getIDs{
             
           //  ids[i] = p[0];
         }
-        String result = "Aligned " + (numPrecursors - failed) + " precursors.";
+        String result = "Found transcript id of " + (numPrecursors - failed) + " precursors.";
         if(failed>=1){
             String f = "Failed to find transcript id of " + failed + " precursors out of " + numPrecursors + ".";
             System.out.println(f);

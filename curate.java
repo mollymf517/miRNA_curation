@@ -26,11 +26,11 @@ public class curate {
         switch(decision){
         case "yes":
             yn = true;
-            System.out.println("Please specify the name of the fasta file to write the precursors to:");
+            System.out.println("Specify the name of the fasta file to write the precursors to:");
             prec_path = "/global/home/hpc4982/curation_test/" + dec.nextLine();
             break;
         case "no": 
-            System.out.println("Please specify the name of the fasta file containing the precursors:");
+            System.out.println("Specify the name of the fasta file containing the precursors:");
             prec_path = "/global/home/hpc4982/curation_test/" + dec.nextLine();
             yn = false;
             break;
@@ -38,43 +38,63 @@ public class curate {
     }
     //    dec.close();
         //if the precursor sequences need to be generated
-        if(yn){
-        //getPrecursorSequences(testList);
-        ArrayList<Precursor> precursors = new ArrayList<>();
-        //ArrayList<String> formattedIds = new ArrayList<>();
-        precursors = mapping.getPrecursors("/global/home/hpc4982/resources/miRNA_master.tsv");
-        //set transcriptId for each precursor
-        getIDs.getTranscriptIds(precursors);
-        ArrayList<Precursor> testList = new ArrayList<>();
-        testList.add(precursors.get(0));
-        testList.add(precursors.get(1));
-        testList.add(precursors.get(2));
-        testList.add(precursors.get(3));
-        testList.add(precursors.get(4));
-        testList.add(precursors.get(5));
-        //getPrecursorSequences(precursors);
-        getPrecursorSequences(testList, prec_path);
-        }
-        boolean build = false;
+        boolean precursorbuild = false;
+        boolean genomebuild = false;
         System.out.println("Run build on human genome: yes or no");
-        String buildchoice = "no";
+        String genomechoice = "no";
        // Scanner build = new Scanner(System.in);
       
-        buildchoice = dec.nextLine();
+        genomechoice = dec.nextLine();
     
-        switch(buildchoice){
+        switch(genomechoice){
         case "yes":
-            build = true;
+            genomebuild = true;
             break;
         case "no": 
-            build = false;
+            genomebuild = false;
             break;
         }
-        
+        System.out.println("Run build on precursors: yes or no");
+        String precchoice = "no";
+       // Scanner build = new Scanner(System.in);
+      
+        precchoice = dec.nextLine();
+    
+        switch(precchoice){
+        case "yes":
+            precursorbuild = true;
+            break;
+        case "no": 
+            precursorbuild = false;
+            break;
+        }
         dec.close();
-        System.out.println("Scanner closed.");
-        if(build){
-            System.out.println("Running Build...");
+        //System.out.println("Scanner closed.");
+        if(yn){
+            //getPrecursorSequences(testList);
+            System.out.println("Getting precursor sequences...");
+            ArrayList<Precursor> precursors = new ArrayList<>();
+            //ArrayList<String> formattedIds = new ArrayList<>();
+            precursors = mapping.getPrecursors("/global/home/hpc4982/resources/miRNA_master.tsv");
+            //set transcriptId for each precursor
+           // getIDs.getTranscriptIds(precursors);
+            ArrayList<Precursor> testList = new ArrayList<>();
+            testList.add(precursors.get(0));
+            testList.add(precursors.get(1));
+            testList.add(precursors.get(2));
+         //   testList.add(precursors.get(3));
+          //  testList.add(precursors.get(4));
+          //  testList.add(precursors.get(5));
+        //getPrecursorSequences(precursors);
+            getIDs.getTranscriptIds(testList);
+            getPrecursorSequences(testList, prec_path);
+            }
+        if(genomebuild){
+            System.out.println("Running Build on genome...");
+            runBuild();
+        }
+        if(precursorbuild){
+            System.out.println("Running Build on precursors...");
             runBuild();
         }
         performAlignment(prec_path);
@@ -106,9 +126,10 @@ public class curate {
         String header = ">";
         for(int j=0; j<precursors.size();j++){
             String transcript = (precursors.get(j)).transcriptId;
-            if(j%50 == 0){
-                String progress = "Getting trancript for precursor number ";
-                progress = progress + j + ": " + transcript;
+            //if(j%50 == 0){
+            if(j%1 == 0){
+                String progress = "Getting sequence for precursor number ";
+                progress = progress + (j+1) + ": " + transcript;
                 System.out.println(progress);
                 //System.out.println(transcript);
             }
