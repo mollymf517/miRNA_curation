@@ -3,7 +3,7 @@ public class Precursor {
     public String geneId;
     public String transcriptId;
     public String sequence;
-
+//precursor object to represent a precursor
     public Precursor(String name){
         this.name = name;
         this.geneId = "";

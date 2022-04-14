@@ -6,124 +6,54 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class getIDs{
-    public static void getTranscriptIds(ArrayList<Precursor> precursors) throws IOException{
-        //takes list of precursors and gets all transcript ids adding them to a list
-        //boolean windows = System.getProperty("os.name").toLowerCase().startsWith("windows");
-       //change it to return string [] after test
-       // String testid = "failed";
+    //runs the script to get the transcript id of each precursor
+    public static void getTranscriptIds(ArrayList<Precursor> precursors, String wd) throws IOException{
         int numPrecursors = precursors.size();
-      //  String[] ids = new String[numPrecursors];
-        //Pattern pattern = Pattern.compile("\".*\"");
         Pattern pattern = Pattern.compile("\"([^\"]*)\"");
         int failed = 0;
         ArrayList<Precursor> failed_ids = new ArrayList<>();
         for(int i=0; i<numPrecursors;i++){
             String geneName = (precursors.get(i)).geneId;
-           // System.out.println("gene name: ");
-           // System.out.println(geneName);
             String id_o = null;
             try{
                 Runtime r = Runtime.getRuntime();
-                String cmd = "/bin/sh /global/home/hpc4982/resources/transcriptid.sh " + geneName;
-               // System.out.println("command:");
-               // System.out.println(cmd);
+                String cmd = "/bin/sh " + wd + "/transcriptid.sh " + geneName;
                 Process p = r.exec(cmd);
                 BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 String inputLine = null;
-               // int lineCount = 1;
                 while((inputLine = in.readLine()) != null){
-                   // String parts = inputLine.split(";")
-                   // System.out.println("entering while.");
-                   // System.out.println("Line number: ");
-                  //  System.out.println(lineCount);
-                   // System.out.println(inputLine);
-                   //if(inputLine.equals("")){
-                       // String testop = "empty: " + inputLine + " .";
-                        // System.out.println("empty: testline: ");
-                        // System.out.println(inputLine);
-                        // id="error";
-                        // break;
-                   //}
-                    // else{
-                    //     id = inputLine;
-                    // }
                     id_o = inputLine;
    
                 }
-                //ids[i] = id;
+
                 Matcher matcher = pattern.matcher(id_o);
-                //System.out.println("id: ");
-               // System.out.println(ids);
-               // testid = "error.";
+                //if theres a match, set the transcript id of the precursor
                 if(matcher.find()) {
                     String id = matcher.group(1);
-                   // String s = "Match: " + id;
-                   // System.out.println(s);
-                   // ids[i] = id;
                    precursors.get(i).transcriptId = id;
                 }
                 else{
-                   // System.out.println("Match not found.");
-                   // String er = "Gene name: " + geneName;
-                   // System.out.println(er);
-                    // String changedID = changeID(geneName);
-                    // precursors.get(i).setGeneId(changedID);
-                    // //if(matcher.find()) {
-                    //     String id = matcher.group(1);
-                    //    // String s = "Match: " + id;
-                    //    // System.out.println(s);
-                    //    // ids[i] = id;
-                    //    precursors.get(i).transcriptId = id;
-                
+                  //if formatting failed
                     failed_ids.add(precursors.get(i));
                     System.out.println("Failed to find matching transcript id for gene name " + geneName);
                     failed +=1;
                    }
-                   
-               // Matcher matcher2 = pattern.matcher(id_o);
-                //System.out.println("id: ");
-               // System.out.println(ids);
-               // testid = "error.";
-                
+
                 in.close();
                 p.destroy();
             } catch (IOException e){
                 System.out.println(e);
             }
-       
-            // if (again){
-            //     getTranscriptIds(failed_ids, false);
-            // }
-
-        
-           // String [] cmd = new String[]{"/bin/sh", "/global/home/hpc3982/resources/transcriptid.sh", geneName};
-    
-           // Process p = new ProcessBuilder("./transcriptid.sh", geneName).start();
-           // Process p = Runtime.getRuntime().exec(cmd);
-           // InputStream in = p.getInputStream();
-          //  int c;
-          //  while ((c = in.read()) != -1) {
-           //     p((char)c);
-          //  }
-         //   in.close();
-         //   System.out.println(p);
-            
-          //  ids[i] = p[0];
         }
-        String result = "Found transcript id of " + (numPrecursors - failed) + " precursors.";
+        String result = "Found transcript id of " + (numPrecursors - failed) + " precursors out of " + numPrecursors + " total.";
         if(failed>=1){
             String f = "Failed to find transcript id of " + failed + " precursors out of " + numPrecursors + ".";
             System.out.println(f);
         }
 
         System.out.println(result);
-       
-      //  return ids;
 
-    }
-    public static String changeID(String geneName){
-        String formatted = geneName.replaceAll("-", "");
-        return formatted;
+
     }
     
 }

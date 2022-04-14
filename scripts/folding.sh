@@ -1,5 +1,5 @@
 module load viennarna
-
+cd /global/home/hpc4982/submissionFiles/folding/folded
 RNAfold $1
 
 #add annotations
