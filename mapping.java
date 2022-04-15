@@ -1,17 +1,12 @@
 import java.io.BufferedReader;
-//import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
 
-//To do:
-// Convert precursor name to transcript/gene id
-// search in hg38 for other ID, add to file
-// loop through file of precursor IDs
-// find precursors in the blast database using the transcript and get their full sequence
-// run bowtie2 with precursor sequence and miRNAs
-//
-//
+//This contains getCandidates, which can be used to read in the miRNAs
+//getPrecursors, which reads the precursor names in from a .tsv file and creates
+//a new precursor instance for each precursor
+//and format name, which formats the precursor name into the gene name
 public class mapping {
     public static ArrayList<Candidate> getCandidates(String fastq){
         //read in miRNAs from fastq file
@@ -21,12 +16,9 @@ public class mapping {
             String line = null;
             int lineCount = 1;
             while ((line = read_seqs.readLine()) != null){
-                //String[] data = line.split("\t");
                 if (lineCount == 2){
-                    //System.out.println("Sequence found: ");
                     Candidate c = new Candidate(line);
                     mi_RNAs.add(c);
-                    //System.out.println(line);
                 } 
                 if (lineCount == 4){
                     lineCount = 0;
@@ -39,19 +31,18 @@ public class mapping {
         return mi_RNAs;
     }
     public static ArrayList<Precursor> getPrecursors(String filename) {
-         //ArrayList<String> precursors = new ArrayList<>();
          ArrayList<Precursor> precursors = new ArrayList<>();
          try(BufferedReader read_precursors = new BufferedReader(new FileReader(filename))){
              String line = null;
              while ((line = read_precursors.readLine()) != null){
                  String[] data = line.split("\t");
                  String name = data[1];
+                 //create a new precursor instance with the name that was read in
                  Precursor p = new Precursor(name);
+                 //format the name and set the precursors gene name to it
                  formatName(p);
-                 //precursors.add(formatName(name));
                  precursors.add(p);
-                 //precursors.add(data[2]);
-                // System.out.println(data[1]);
+               
              }
          } catch (Exception e) {
              System.out.println("Error.");
@@ -63,7 +54,6 @@ public class mapping {
     }
 
     public static void formatName(Precursor precursor){
-        //181A2 and 181B2 look like 181a-2 and 181-a3
         String name = precursor.name;
         String formatted = "";
         formatted = name.replaceAll("hsa-", "");
@@ -80,50 +70,26 @@ public class mapping {
         formatted = formatted.replaceAll("-A6G", "");
        // formatted = formatted.replace("-[^-]+$","");
         formatted = formatted.replaceAll("-$","");
-       // formatted = formatted.replaceAll("-", "");
         formatted = formatted.toUpperCase();
-        //begin hardcoded
-        // formatted = formatted.replaceAll("MIR30C-1", );
-        // formatted = formatted.replaceAll("MIR365-1", );
-        // formatted = formatted.replaceAll("MIR365-2", );
-        // formatted = formatted.replaceAll("MIR1270-1", );
-        // formatted = formatted.replaceAll("MIR1270-2", );
-        // formatted = formatted.replaceAll("MIR517A1", );
-        // formatted = formatted.replaceAll("MIR517A2", );
-        // formatted = formatted.replaceAll("MIR103-2", );
-        // formatted = formatted.replaceAll("MIR103-1", );
-        // formatted = formatted.replaceAll("MIR30C-2", );
-        // formatted = formatted.replaceAll("MIR219-1", );
-        // formatted = formatted.replaceAll("MIR550-1", );
-        // formatted = formatted.replaceAll("MIR550-2", );
-        // formatted = formatted.replaceAll("MIR219-2", );
-        // formatted = formatted.replaceAll("MIR3690-1", );
-        // formatted = formatted.replaceAll("MIR3690-2", );
+        //begin hardcoded precursors
+        formatted = formatted.replaceAll("MIR30C-1", "MIR30C1");
+        formatted = formatted.replaceAll("MIR365-1", "MIR365A");
+        formatted = formatted.replaceAll("MIR365-2", "MIR365B");
+        formatted = formatted.replaceAll("MIR1270-1","MIR1270");
+        formatted = formatted.replaceAll("MIR1270-2","MIR1270" );
+        formatted = formatted.replaceAll("MIR517A1", "MIR517A");
+        formatted = formatted.replaceAll("MIR517A2", "MIR517B");
+        formatted = formatted.replaceAll("MIR103-2", "MIR103A2");
+        formatted = formatted.replaceAll("MIR103-1","MIR103A1" );
+        formatted = formatted.replaceAll("MIR30C-2", "MIR30C2");
+        formatted = formatted.replaceAll("MIR219-1", "MIR219A1");
+        formatted = formatted.replaceAll("MIR550-1", "MIR550A1");
+        formatted = formatted.replaceAll("MIR550-2", "MIR550A2");
+        formatted = formatted.replaceAll("MIR219-2", "MIR219A2");
+        formatted = formatted.replaceAll("MIR3690-1","MIR3690" );
+        formatted = formatted.replaceAll("MIR3690-2", "MIR3690");
         precursor.geneId = formatted;
-        //System.out.println("formatted: ");
-        //System.out.println(formatted);
-        //return formatted;
+
     }
-    // public static String[] getFlankingSeqs(String precursor, int seqSize){
-    //     //when do we want to get flanking sequences? One at a time, or do we want
-    //     //another list that stores the flanking sequences for each precursor
-    //     String upstream = "";
-    //     String downstream = "";
-    //     String[] flankingSeqs = {upstream, downstream};
-    //     //flankingSeqs = {upstream, downstream};
-    //     //flankingSeqs[1] = downstream
-    //     return flankingSeqs;
-    // }
-    
-    // public static String map_precursors(ArrayList<String> precursors, ArrayList<String> sequences){
-    //     String precursor = "";
-    //     for (int i = 1; i<precursors.size(); i++){
-    //         precursor = precursors.get(i);
-    //         String [] flanks = getFlankingSeqs(precursor, 1);
-    //         System.out.println(flanks);
-    //         //code to align all miRNAs with the sequence - Bowtie 2; start off with distance of 0
-    //     }
-    //     return precursor;
-    // }
     
 }

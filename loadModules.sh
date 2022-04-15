@@ -5,11 +5,6 @@ module load gcc/9.3.0
 module load gcc/7.3.0
 module load blast+/2.10.1
 
-sequence=$(echo | preseq.sh $1)
-echo $sequence
-exit 0
-#needed for BlAST
-
 #put modules for alignment here
 #module load hisat2
 #^
