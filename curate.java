@@ -48,6 +48,7 @@ public class curate {
         //Generate FASTA or use preexisting:
         System.out.println("Generate new fasta file for precursor sequences (if you already have a fasta file with precursors, type no): yes or no");
         decision = dec.nextLine();
+<<<<<<< HEAD
         //3 gb file that can't be added to repo, so there is option to download it
         System.out.println("Download genome for alignment? If file 'h8.analysisSet.fa' already exists, enter no: yes/no");
         String dlChoice = dec.nextLine();
@@ -69,6 +70,8 @@ public class curate {
                 System.out.println(e);
             }
         }
+=======
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
         //Get filename containing miRNAs to be evaluated
         System.out.println("Specify the name of the file containing the miRNAs (e.g. miRNAs.fastq): ");
         mirs = dec.nextLine();
@@ -233,7 +236,11 @@ public class curate {
    private static void genomeAlignment(boolean build, String wd, String mirs) throws IOException{
         //if build required, run alignment build on precursors
         if(build){
+<<<<<<< HEAD
             runBuild("hg.38.analysisSet.fa", "hg38");
+=======
+            runBuild("'hg.38.analysisSet.fa '", "'hg38'");
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
         }
         // else{
         //      return;
@@ -266,7 +273,11 @@ public class curate {
 
             }
             in.close();
+<<<<<<< HEAD
            // p2.destroy();
+=======
+            p2.destroy();
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
         
         } catch (IOException e){
             System.out.println(e);
@@ -278,7 +289,11 @@ public class curate {
         System.out.println("Building...");
         try{
             Runtime r3 = Runtime.getRuntime();
+<<<<<<< HEAD
             String cmd = "/bin/sh " + "build.sh " + fasta + " " + toBuild;
+=======
+            String cmd = "/bin/sh " + "build.sh" + fasta + toBuild;
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
             Process p3 = r3.exec(cmd);
             BufferedReader in = new BufferedReader(new InputStreamReader(p3.getInputStream()));
             String inputLine = null;
@@ -286,7 +301,11 @@ public class curate {
                 System.out.println(inputLine);
             }
             in.close();
+<<<<<<< HEAD
          //   p3.destroy();
+=======
+            p3.destroy();
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
 
         } catch (IOException e){
             System.out.println(e);
@@ -309,7 +328,11 @@ public class curate {
    
                 }
            in.close();
+<<<<<<< HEAD
            //p4.destroy();
+=======
+           p4.destroy();
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
         } catch (IOException e){
             System.out.println(e);
         }
@@ -328,7 +351,11 @@ public class curate {
    
                 }
             in.close();
+<<<<<<< HEAD
           //  p5.destroy();
+=======
+            p5.destroy();
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
             } catch (IOException e){
                 System.out.println(e);
             }
@@ -360,7 +387,11 @@ public class curate {
                             System.out.println(inputLine);
                         }
                         in.close();
+<<<<<<< HEAD
                     //    p6.destroy();
+=======
+                        p6.destroy();
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
                     } catch (IOException e){
                         System.out.println(e);
                     }

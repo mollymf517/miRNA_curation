@@ -1,23 +1,26 @@
-#This file creates the files that visualize alignment 
+#this will create the alignment files
 
 #input:
-    #1 - precursors.fa (fasta file used to create precursor indexes)
-    #2 - sam file (output file from precursor alignment)
+#1 - precursors.fa
+#2 - sam file
 
-#Create a file named after each precursor and write precursor sequences to corresponding file
+#write precursor sequences to a file each
+    #name file after precursor
+
+#cd /global/home/hpc4982/submissionFiles/alignedFiles
 
 while IFS= read -r line; do
-    start=${line:0:1}  #readingin through precursor file
-    #Look for line in format "> NR_XXXXX" and name a file this
+    start=${line:0:1}
     if [[ $start == ">" ]]; then
         next=${line:1:2}
         if [[ $next == "NR" ]]; then
-            file="${line:1:9}.txt"    
+            file="${line:1:9}.txt"
             echo > $file
+
         fi
     elif [[ $start == "N" ]]; then
         file="$line.txt"
-        echo > $file 
+        echo > $file
     else
         echo $line > $file
     fi

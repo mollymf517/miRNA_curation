@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 //This file determines the type of ncRNA from the gene name
+=======
+
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,6 +15,10 @@ import java.util.Hashtable;
 public class miRNA {
 	
 	public static File get_rna_types(String filename){
+<<<<<<< HEAD
+=======
+		//String file = "C:/Users/chloe/OneDrive/Documents/School/4th Year/WINTER/CISC 499/geneNames.txt";
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
 		
 		ArrayList<String> geneNamesArray = new ArrayList<String>();;
 
@@ -20,9 +28,17 @@ public class miRNA {
             while (read.hasNextLine()){
                 String line = read.nextLine();
                 geneNamesArray.add(line);
+<<<<<<< HEAD
             }
             read.close();
         } catch (FileNotFoundException e){
+=======
+                // append to array
+            }
+            read.close();
+        } catch (FileNotFoundException e){
+            //System.out.printlin("File " + file + " not found.");
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
             e.printStackTrace();
         }
         
@@ -31,7 +47,10 @@ public class miRNA {
 
         Hashtable<String, String> ncRNAs = new Hashtable<String, String>();
 
+<<<<<<< HEAD
         //Using gene naming conventions to determine ncRNA type with first few letters of gene name
+=======
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
         ncRNAs.put("MIR", "miRNA");
         ncRNAs.put("NMTR", "tRNA");
         ncRNAs.put("TR", "tRNA"); //seems too short, could get other genes
@@ -58,6 +77,7 @@ public class miRNA {
 
 
         
+<<<<<<< HEAD
         for(int i = 0; i < geneNamesArray.size(); i++){ //look at every gene name in file
 
             String geneType;
@@ -80,6 +100,27 @@ public class miRNA {
         }
 
         //Extract numbers and use them to get total, and percents
+=======
+        for(int i = 0; i < geneNamesArray.size(); i++){
+
+            String geneType;
+            geneType = "";
+
+            while (geneType == ""){
+                for (int j = 2; (j < 6) && (j  < geneNamesArray.get(i).length()); j++){
+                    String gene = geneNamesArray.get(i).substring(0, j);
+                    if (ncRNAs.containsKey(gene)){
+                        geneType = ncRNAs.get(gene);
+                    }
+                }
+                if (geneType == ""){
+                    geneType  = "other";
+                }
+                types.put(geneType, types.get(geneType) + 1);
+            }
+        }
+
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
         int num_miRNA = types.get("miRNA");
         int num_tRNA = types.get("tRNA");
         int num_rRNA = types.get("rRNA");
@@ -96,7 +137,11 @@ public class miRNA {
         double percent_snoRNA = (num_snoRNA * 100/ totalNum);
         double percent_other = (num_other * 100/ totalNum);
 
+<<<<<<< HEAD
         //Create csv file of the numbers and percents
+=======
+        	
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
         File fileOut = null;
         FileWriter filewriter = null;
         String heading = "Total Reads, rRNA, % rRNA, snoRNA, % snoRNA, snRNA, % snRNA, tRNA, %tRNA, other, % other, miRNA, % miRNA";
@@ -125,7 +170,17 @@ public class miRNA {
         
         
 		
+<<<<<<< HEAD
 	}	
+=======
+	}
+	// public static void main(String[] args) {
+	// 	get_rna_types();
+	// }
+	
+	
+	
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
 
 }
 

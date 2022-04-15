@@ -7,8 +7,11 @@ This pipeline is run through the command line in a Linux environment through the
 Computing (CAC). 
 
 Starting instructions:
+<<<<<<< HEAD
 Unzip the resources folder and make sure its contents are in the same folder as the 
 other applications components (miRNA_curation)
+=======
+>>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
 Be sure the java classes are compiled using javac *.java for each class.
 The pipeline takes a fasta (miRNAs/ncRNAs) and optionally a fastq (precursors) file as input.
 There will be several prompts before the pipeline starts, please read and answer them carefully.
