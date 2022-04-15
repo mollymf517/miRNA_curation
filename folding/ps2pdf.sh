@@ -3,5 +3,5 @@
 #Input:
     #1 - a ps file
 
-cd /global/home/hpc4982/submissionFiles/folding/folded
+cd folded
 ps2pdf $1

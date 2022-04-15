@@ -4,7 +4,7 @@
 	#1 - fasta file of sequences to be folded
 
 module load viennarna
-cd /global/home/hpc4982/submissionFiles/folding/folded
+cd folded
 RNAfold $1
 
 
