@@ -7,11 +7,8 @@ This pipeline is run through the command line in a Linux environment through the
 Computing (CAC). 
 
 Starting instructions:
-<<<<<<< HEAD
 Unzip the resources folder and make sure its contents are in the same folder as the 
 other applications components (miRNA_curation)
-=======
->>>>>>> a8c8b753c2b8823ffd5e452dd888df9003827166
 Be sure the java classes are compiled using javac *.java for each class.
 The pipeline takes a fasta (miRNAs/ncRNAs) and optionally a fastq (precursors) file as input.
 There will be several prompts before the pipeline starts, please read and answer them carefully.
@@ -45,8 +42,19 @@ each ncRNA type found in the sample.
 
 Bash Scripts:
 alignment.sh
+Runs HISAT alignment 
+
+alignmentFile.sh
+Creates files for alignment output
+
+build.sh
+creates the build files needed for alignment
+
+downloadGenome.sh
+if user answers yes when asked about downloading, this will download hg38.refGene.gtf and hg38.analysisSet.fa
 
 folding.sh
+Runs folding on precursors
 
 loadModules.sh
 A script for preloading all modules needed. Not currently in use.
@@ -66,13 +74,19 @@ miRNA_master.tsv
 Contains the known precursor sequences used. The precursor names are extracted from this file.
 
 hg38.refGene.gtf
-Human Genome 38 genome annotations. Obtained from UCSC Genome Browser
+Human Genome 38 genome annotations. Obtained from UCSC Genome Browser.
 
 refSeq.fa
 Human Genome 38 sequences in fasta format. Obtained from NCBI.
 
 artificialSeq.fastq
 A file containing artificial sequences to be used as miRNAs. Used for testing.
+
+artSeqShort.fastq
+A smaller version of artificialSeq.fastq used for quick testing.
+
+smalltest.fa
+A small fasta file containing the first 15 (13) precursors, used for testing.
 
 /allSeqs (several files)
 files for a blastdb called allSeqs that contains hg38 transcript ids and sequences. Created from refSeq.fa.
